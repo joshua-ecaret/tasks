@@ -4,10 +4,11 @@ namespace App\Http\Resources\Package; // Corrected namespace as per the error me
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Dedoc\Scramble\Attributes\SchemaName;
 /**
  * @mixin \App\Models\Package
  */
+#[SchemaName('Package')]
 class PackageResource extends JsonResource
 {
     /**
@@ -17,9 +18,10 @@ class PackageResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         return [ // No need for (array) cast here
-            'id' => $this->id,
-            'name' => $this->package_name,
+            'id' => $this->id ?? 1,
+            'name' => $this->package_name ?? "Basic Plan",
             'credits' => $this->credits,
             'time_unit' => $this->credits_time_unit,
             'status' => $this->status,

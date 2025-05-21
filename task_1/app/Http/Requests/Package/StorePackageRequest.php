@@ -25,7 +25,7 @@ class StorePackageRequest extends FormRequest
             'apply_credit_rollover' => 'required|boolean',
             'max_rollover_credits' => 'nullable|integer|min:1|required_if:apply_credit_rollover,true',
             'start_date' => ['required', 'date', 'after_or_equal:today',Rule::date()->format('Y-m-d')],
-            'end_date' => ['required', 'date', 'after:start_date'],
+            'end_date' => ['required', 'date', 'after:start_date',Rule::date()->format('Y-m-d')],
         ];
     }
 

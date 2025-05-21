@@ -11,11 +11,13 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response as HttpResponse;
 use Symfony\Component\HttpFoundation\Response;
-
+use Dedoc\Scramble\Attributes\BodyParameter;
 class PackageController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display packages
+     * 
+     * Lists all packages
      */
     public function index(): AnonymousResourceCollection
     {
@@ -23,6 +25,8 @@ class PackageController extends Controller
     }
 
     /**
+     *  Add a new package 
+     * 
      * Store a newly created resource in storage.
      */
     public function store(StorePackageRequest $request): PackageResource
@@ -33,7 +37,7 @@ class PackageController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified package
      */
     public function show(Package $package): PackageResource
     {
@@ -51,12 +55,14 @@ class PackageController extends Controller
     }
 
     /**
+     * Delete a package
+     * 
      * Remove the specified resource from storage.
      */
     public function destroy(Package $package): HttpResponse
     {
         $package->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return new HttpResponse(null, Response::HTTP_NO_CONTENT);
     }
 }
