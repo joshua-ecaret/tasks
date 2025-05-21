@@ -14,6 +14,18 @@ class PackageResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->package_name,
+            'credits' => $this->credits,
+            'time_unit' => $this->credits_time_unit,
+            'status' => $this->status,
+            'apply_credit_rollover' => $this->apply_credit_rollover,
+            'max_rollover_credits' => $this->when(
+                $this->apply_credit_rollover,
+                $this->max_rollover_credits
+            ),
+        ];
+
     }
 }

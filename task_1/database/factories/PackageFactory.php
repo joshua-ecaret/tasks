@@ -17,7 +17,15 @@ class PackageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'package_name' => $this->faker->unique()->words(2, true),
+            'credits' => $this->faker->numberBetween(1, 100),
+            'credits_time_unit' => $this->faker->randomElement(['Per Month', 'Per Week']),
+            'status' => $this->faker->randomElement(['Active', 'Inactive', 'Draft']),
+            'apply_credit_rollover' => $this->faker->boolean(),
+            'max_rollover_credits' => function (array $attributes) {
+                // If apply_credit_rollover is true, provide a number; else null
+                return $attributes['apply_credit_rollover'] ? $this->faker->numberBetween(1, 50) : null;
+            },
         ];
     }
 }

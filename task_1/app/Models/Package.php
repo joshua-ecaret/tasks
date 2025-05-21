@@ -9,4 +9,14 @@ class Package extends Model
 {
     /** @use HasFactory<\Database\Factories\PackageFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'package_name',
+        'credits',
+        'credits_time_unit',
+        'status',
+        'apply_credit_rollover',
+        'max_rollover_credits',
+    ];
+
 }

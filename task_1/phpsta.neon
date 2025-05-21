@@ -1,0 +1,6 @@
+parameters:
+    paths:
+        - app
+        - database
+        - routes
+        - database/migrations

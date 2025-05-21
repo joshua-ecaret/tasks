@@ -4,7 +4,7 @@ namespace App\Http\Requests\Package;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePackageRequest extends FormRequest
+class UpdatePackageRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,12 +14,24 @@ class StorePackageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'package_name' => 'required|string|max:255',
-            'credits' => 'required|integer|min:1',
-            'credits_time_unit' => 'required|in:Per Month,Per Week',
-            'status' => 'required|in:Active,Inactive,Draft',
-            'apply_credit_rollover' => 'required|boolean',
-            'max_rollover_credits' => 'nullable|integer|min:1|required_if:apply_credit_rollover,true',
+            'package_name' => 'sometimes|required|string|max:255',
+            'credits' => 'sometimes|required|integer|min:1',
+            'credits_time_unit' => 'sometimes|required|in:Per Month,Per Week',
+            'status' => 'sometimes|required|in:Active,Inactive,Draft',
+            'apply_credit_rollover' => 'sometimes|required|boolean',
+            'max_rollover_credits' => [
+                'nullable',
+                'integer',
+                'min:1',
+                function ($attribute, $value, $fail) {
+                    $applyRollover = $this->input('apply_credit_rollover');
+                    if ($applyRollover === true || $applyRollover === 'true') {
+                        if (is_null($value)) {
+                            $fail('Max rollover credits is required when rollover is applied.');
+                        }
+                    }
+                }
+            ],
         ];
     }
 
@@ -36,7 +48,6 @@ class StorePackageRequest extends FormRequest
             'status.in' => 'Status must be Active, Inactive, or Draft.',
             'apply_credit_rollover.required' => 'Please specify if credit rollover is applied.',
             'apply_credit_rollover.boolean' => 'Rollover field must be true or false.',
-            'max_rollover_credits.required_if' => 'Max rollover credits are required when rollover is applied.',
             'max_rollover_credits.integer' => 'Max rollover credits must be a number.',
             'max_rollover_credits.min' => 'Max rollover credits must be at least 1.',
         ];
