@@ -7,7 +7,7 @@ use App\Models\Package;
 
 class PackageSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         Package::factory()->count(10)->create();
     }

@@ -11,6 +11,9 @@ class UpdatePackageRequest extends FormRequest
         return true;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function rules(): array
     {
         return [
@@ -35,6 +38,9 @@ class UpdatePackageRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function messages(): array
     {
         return [
@@ -53,6 +59,9 @@ class UpdatePackageRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function attributes(): array
     {
         return [
@@ -62,3 +71,4 @@ class UpdatePackageRequest extends FormRequest
         ];
     }
 }
+

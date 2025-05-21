@@ -17,7 +17,8 @@ class PackageFactory extends Factory
     public function definition(): array
     {
         return [
-            'package_name' => $this->faker->unique()->words(2, true),
+            'package_name' => $this->faker->randomElement(['Starter', 'Pro', 'Premium', 'Basic', 'Advanced', 'Enterprise']) . ' ' .
+                 $this->faker->randomElement(['Plan', 'Package', 'Bundle', 'Subscription']),
             'credits' => $this->faker->numberBetween(1, 100),
             'credits_time_unit' => $this->faker->randomElement(['Per Month', 'Per Week']),
             'status' => $this->faker->randomElement(['Active', 'Inactive', 'Draft']),

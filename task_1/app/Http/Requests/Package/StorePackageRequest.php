@@ -11,6 +11,9 @@ class StorePackageRequest extends FormRequest
         return true;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function rules(): array
     {
         return [
@@ -23,6 +26,9 @@ class StorePackageRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function messages(): array
     {
         return [
@@ -42,6 +48,9 @@ class StorePackageRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function attributes(): array
     {
         return [
@@ -51,3 +60,4 @@ class StorePackageRequest extends FormRequest
         ];
     }
 }
+
