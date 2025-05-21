@@ -17,6 +17,8 @@ class Package extends Model
         'status',
         'apply_credit_rollover',
         'max_rollover_credits',
+        'start_date',
+        'end_date'
     ];
 
 }

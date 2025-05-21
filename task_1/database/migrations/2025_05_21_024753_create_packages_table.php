@@ -19,6 +19,8 @@ return new class extends Migration
             $table->enum('status', ['Active', 'Inactive', 'Draft']);
             $table->boolean('apply_credit_rollover');
             $table->integer('max_rollover_credits')->nullable();
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
     }

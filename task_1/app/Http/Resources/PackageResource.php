@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Package; // Corrected namespace as per the error message
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -17,7 +17,7 @@ class PackageResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return(array) [
+        return [ // No need for (array) cast here
             'id' => $this->id,
             'name' => $this->package_name,
             'credits' => $this->credits,
@@ -30,4 +30,3 @@ class PackageResource extends JsonResource
         ];
     }
 }
-

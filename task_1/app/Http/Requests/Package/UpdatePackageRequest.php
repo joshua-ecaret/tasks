@@ -3,7 +3,9 @@
 namespace App\Http\Requests\Package;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
+use Illuminate\Contracts\Validation\Validator;
 class UpdatePackageRequest extends FormRequest
 {
     public function authorize(): bool
@@ -35,8 +37,38 @@ class UpdatePackageRequest extends FormRequest
                     }
                 }
             ],
+            'start_date' => ['sometimes', 'date', 'after_or_equal:today', 'date_format:Y-m-d'],
+            'end_date' => ['sometimes', 'date', 'after:start_date', 'date_format:Y-m-d',],
         ];
     }
+
+
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function ($validator) {
+            $startInput = $this->input('start_date');
+            $endInput = $this->input('end_date');
+
+
+            /** @var \App\Models\Package|null $existing */
+            $existing = $this->route('package');
+            $start = $startInput ?? optional($existing)->start_date;
+            $end = $endInput ?? optional($existing)->end_date;
+
+            if ($start && $end) {
+                if (strtotime($start) > strtotime($end)) {
+                    if ($startInput && !$endInput) {
+                        $validator->errors()->add('start_date', 'Start date must be before or equal to the current end date.');
+                    } elseif (!$startInput && $endInput) {
+                        $validator->errors()->add('end_date', 'End date must be after or equal to the current start date.');
+                    } else {
+                        $validator->errors()->add('start_date', 'Start date must be before or equal to end date.');
+                    }
+                }
+            }
+        });
+    }
+
 
     /**
      * @return array<string, string>

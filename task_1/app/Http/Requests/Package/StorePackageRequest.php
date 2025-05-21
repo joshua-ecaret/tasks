@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Package;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StorePackageRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class StorePackageRequest extends FormRequest
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, mixed>
      */
     public function rules(): array
     {
@@ -23,6 +24,8 @@ class StorePackageRequest extends FormRequest
             'status' => 'required|in:Active,Inactive,Draft',
             'apply_credit_rollover' => 'required|boolean',
             'max_rollover_credits' => 'nullable|integer|min:1|required_if:apply_credit_rollover,true',
+            'start_date' => ['required', 'date', 'after_or_equal:today',Rule::date()->format('Y-m-d')],
+            'end_date' => ['required', 'date', 'after:start_date'],
         ];
     }
 
@@ -45,6 +48,12 @@ class StorePackageRequest extends FormRequest
             'max_rollover_credits.required_if' => 'Max rollover credits are required when rollover is applied.',
             'max_rollover_credits.integer' => 'Max rollover credits must be a number.',
             'max_rollover_credits.min' => 'Max rollover credits must be at least 1.',
+            'start_date.required' => 'The start date is required.',
+            'start_date.date' => 'The start date must be a valid date.',
+            'start_date.before' => 'The start date must be before the end date.',
+            'end_date.required' => 'The end date is required.',
+            'end_date.date' => 'The end date must be a valid date.',
+            'end_date.after' => 'The end date must be after the start date.',
         ];
     }
 
