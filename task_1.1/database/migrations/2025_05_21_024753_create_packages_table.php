@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('max_rollover_credits')->nullable();
             $table->date('start_date');
             $table->date('end_date');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
