@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Package;
 
+use App\Rules\CreditRollover;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -12,6 +13,7 @@ class UpdatePackageRequest extends FormRequest
     {
         return true;
     }
+
 
     public function prepareForValidation()
     {
@@ -25,18 +27,31 @@ class UpdatePackageRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'package_name' => 'sometimes|required|string|max:255',
             'credits' => 'sometimes|required|integer|min:1',
             'credits_time_unit' => 'sometimes|required|in:Per Month,Per Week',
             'status' => 'sometimes|required|in:Active,Inactive,Draft',
-            'apply_credit_rollover' => 'sometimes|required|boolean',
-            'max_rollover_credits' => ['nullable', 'integer', 'min:1', 'required_if:apply_credit_rollover,true',],
+            'apply_credit_rollover' => 'required|boolean',
+            'max_rollover_credits' => ['nullable', 'integer', 'min:1', 'required_if:apply_credit_rollover,true'],
             'start_date' => ['sometimes', 'date', 'after_or_equal:today', 'date_format:Y-m-d'],
             'end_date' => ['sometimes', 'date', 'after:start_date', 'date_format:Y-m-d',],
         ];
     }
 
+    /**
+     * Add casts here
+     * @return array<string, string>
+     */
+    public function casts(): array
+    {
+        return [
+            'apply_credit_rollover' => 'boolean',
+            'max_rollover_credits' => 'integer',
+            'credits' => 'integer',
+        ];
+    }
 
     public function withValidator(Validator $validator): void
     {
@@ -61,29 +76,7 @@ class UpdatePackageRequest extends FormRequest
                     }
                 }
             }
-            
 
-            $applyExists = $this->has('apply_credit_rollover');
-            $apply = $applyExists ? $this->boolean('apply_credit_rollover') : optional($existing)->apply_credit_rollover;
-
-            $maxExists = $this->has('max_rollover_credits');
-            $max = $this->input('max_rollover_credits');
-
-            // If max_rollover_credits is present
-            if ($maxExists) {
-                // Check if apply_credit_rollover is missing
-                if (!$applyExists) {
-                    $validator->errors()->add('apply_credit_rollover', 'The apply credit rollover field is required when updating max rollover credits.');
-                }
-
-                // Check if apply_credit_rollover is false but max_rollover_credits is changed
-                if ($apply === false) {
-                    if ($existing && $existing->max_rollover_credits != $max) {
-                        $validator->errors()->add('max_rollover_credits', 'Cannot update max rollover credits when apply credit rollover is false.');
-                    }
-                }
-
-            }
 
 
         });

@@ -31,7 +31,9 @@ class PackageController extends Controller
      */
     public function store(StorePackageRequest $request): PackageResource
     {
-        $package = Package::create($request->validated());
+
+        $request->validate(['apply_credit_rollover'=>['required','boolean']]);
+        $package = Package::create($request->validated([]));
 
         return new PackageResource($package);
     }

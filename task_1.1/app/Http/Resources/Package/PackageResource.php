@@ -4,9 +4,12 @@ namespace App\Http\Resources\Package; // Corrected namespace as per the error me
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Dedoc\Scramble\Attributes\SchemaName;
+
 /**
  * @mixin \App\Models\Package
  */
+#[SchemaName('Package')]
 class PackageResource extends JsonResource
 {
     /**
