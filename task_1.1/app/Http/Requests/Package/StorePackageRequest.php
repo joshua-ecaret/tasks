@@ -12,6 +12,17 @@ class StorePackageRequest extends FormRequest
         return true;
     }
 
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'apply_credit_rollover' => $this->boolean('apply_credit_rollover'),
+        ]);
+        if (!$this->boolean('apply_credit_rollover')) {
+            $this->merge(['max_rollover_credits' => null]);
+        }
+    }
+
     /**
      * @return array<string, mixed>
      */
@@ -22,7 +33,7 @@ class StorePackageRequest extends FormRequest
             'credits' => 'required|integer|min:1',
             'credits_time_unit' => 'required|in:Per Month,Per Week',
             'status' => 'required|in:Active,Inactive,Draft',
-            'apply_credit_rollover' => 'required|boolean',
+            'apply_credit_rollover' => 'sometimes|boolean',
             'max_rollover_credits' => 'nullable|integer|min:1|required_if:apply_credit_rollover,true',
             'start_date' => ['required', 'date', 'after_or_equal:today',Rule::date()->format('Y-m-d')],
             'end_date' => ['required', 'date', 'after:start_date',Rule::date()->format('Y-m-d')],

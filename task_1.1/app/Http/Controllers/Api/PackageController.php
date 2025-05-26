@@ -32,7 +32,7 @@ class PackageController extends Controller
     public function store(StorePackageRequest $request): PackageResource
     {
 
-        $request->validate(['apply_credit_rollover'=>['required','boolean']]);
+        $request->boolean('apply_credit_rollover');
         $package = Package::create($request->validated([]));
 
         return new PackageResource($package);
