@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Package\StorePackageRequest;
 use App\Http\Requests\Package\UpdatePackageRequest;
-use App\Http\Requests\StorePackageRequest;
 use App\Http\Resources\Package\PackageResource;
 use App\Models\Package;
 use Illuminate\Http\Request;
@@ -16,7 +16,8 @@ class PackageController extends Controller
     public function index()
     {
         $packages = Package::all();
-        return PackageResource::collection($packages);
+       
+        return view('packages.index',compact('packages'));
     }
 
     /**
@@ -24,7 +25,7 @@ class PackageController extends Controller
      */
     public function create()
     {
-        //
+        return view('packages.create', ['package' => new Package()]);
     }
 
     /**
@@ -51,9 +52,9 @@ class PackageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Package $package)
     {
-        //
+        return view('packages.edit', compact('package'));
     }
 
     /**
@@ -76,6 +77,7 @@ class PackageController extends Controller
     {
         $package = Package::findOrFail($id);
         $package->delete();
-        return new Response(["message"=>"Deleted Successfully"], 204);
+        return redirect()->route('packages.index')->with('success', 'Deleted successfully');
+
     }
 }
