@@ -15,8 +15,11 @@ class UpdatePackageRequest extends FormRequest
     }
 
 
-    public function prepareForValidation()
+     protected function prepareForValidation()
     {
+        $this->merge([
+            'apply_credit_rollover' => $this->boolean('apply_credit_rollover'),
+        ]);
         if (!$this->boolean('apply_credit_rollover')) {
             $this->merge(['max_rollover_credits' => null]);
         }
