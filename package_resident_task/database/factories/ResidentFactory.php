@@ -21,7 +21,8 @@ class ResidentFactory extends Factory
             'resident_name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
-'package_id' => Package::inRandomOrder()->value('id') ?? Package::factory(),
+            'package_id' => Package::inRandomOrder()->value('id') ?? Package::factory(),
+            'status' => $this->faker->randomElement(['Active', 'Inactive']),
         ];
     }
 }

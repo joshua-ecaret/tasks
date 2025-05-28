@@ -26,6 +26,9 @@ class ResidentsDataTable extends DataTable
                 return $resident->package->package_name ?? '-';
             })
             ->addColumn('action', 'residents.action')
+            ->addColumn('package_status', function ($resident) {
+                return $resident->package ? ($resident->package->isActive() ? 'Active' : 'Inactive') : 'N/A';
+            })
             ->setRowId('id');
     }
 
@@ -65,16 +68,21 @@ class ResidentsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
             Column::make('resident_name'),
             Column::make('email'),
             Column::make('phone'),
             Column::make('package_name')->title('Package'),
+            Column::make('status'),
+            Column::make('package_status')
+                  ->title('Package Status')
+                  ->searchable(false)
+                  ->orderable(false),
+            Column::computed('action')
+                  ->exportable(false)
+                  ->printable(false)
+                  ->width(60)
+                  ->addClass('text-center'),
         ];
     }
 

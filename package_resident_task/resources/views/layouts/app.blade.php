@@ -36,6 +36,9 @@
         </nav>
 
         <main class="py-4">
+            <div class="container mb-3">
+                <x-back-button />
+            </div>
             @yield('content')
         </main>
     </div>

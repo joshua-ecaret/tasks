@@ -9,3 +9,6 @@ Route::resource('residents', ResidentController::class);
 Route::get('/', function () {
     return view('index');
 });
+
+
+Route::patch('/residents/{resident}/toggle-status', [ResidentController::class, 'toggleStatus'])->name('residents.toggleStatus');
