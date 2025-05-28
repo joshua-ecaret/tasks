@@ -63,17 +63,17 @@ class PackagesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
             Column::make('package_name'),
             Column::make('credits'),
             Column::make('credits_time_unit'),
             Column::make('status'),
             Column::make('max_rollover_credits'),
+            Column::computed('action')
+                  ->exportable(false)
+                  ->printable(false)
+                  ->width(60)
+                  ->addClass('text-center'),
         ];
     }
 

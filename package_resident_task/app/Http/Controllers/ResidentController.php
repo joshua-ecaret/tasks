@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\ResidentsDataTable;
 use App\Http\Requests\Resident\StoreResidentRequest;
 use App\Http\Requests\Resident\UpdateResidentRequest;
+use App\Models\Package;
 use App\Models\Resident;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,8 @@ class ResidentController extends Controller
      */
     public function create()
     {
-        return view('residents.create', ['resident' => new Resident()]);
+        $packages = Package::active()->pluck('package_name', 'id')->toArray();
+        return view('residents.create', ['resident' => new Resident(), 'packages' => $packages]);
     }
 
     /**
@@ -43,7 +45,7 @@ class ResidentController extends Controller
      */
     public function show(Resident $resident)
     {
-        //
+        return view('residents.show', compact('resident'));
     }
 
     /**
@@ -75,5 +77,13 @@ class ResidentController extends Controller
     {
         $resident->delete();
         return redirect()->route('residents.index')->with('success', 'Resident deleted successfully');
+    }
+
+
+
+    public function toggleStatus(Resident $resident)
+    {
+        $resident->toggleStatus();
+        return redirect()->back()->with('success', 'Resident status toggled.');
     }
 }

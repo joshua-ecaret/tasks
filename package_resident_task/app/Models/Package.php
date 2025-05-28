@@ -39,4 +39,24 @@ class Package extends Model
     {
         return $this->hasMany(Resident::class);
     }
+
+
+    public function isActive(): bool
+    {
+        if ($this->status === 'Active') {
+            // if ($this->start_date && $this->end_date) {
+            //     $currentDate = now();
+            //     return $currentDate->between($this->start_date, $this->end_date);
+            // }
+            return true;
+        }
+        return false;
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'Active');
+    }
+
+
 }
