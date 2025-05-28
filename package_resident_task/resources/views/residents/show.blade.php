@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="packages/create">HI</a>
     <div class="conatianer m-5">
         <div class="card">
             <div class="card-header">Resident Details</div>

@@ -10,8 +10,6 @@ use Tests\TestCase;
 
 class PackageTest extends TestCase
 {
-
-
     use RefreshDatabase;
 
     public static function invalidPackageData(): array
@@ -23,16 +21,24 @@ class PackageTest extends TestCase
             'credits below min' => [['credits' => 0], 'credits'],
             'invalid credits_time_unit' => [['credits_time_unit' => 'Per Year'], 'credits_time_unit'],
             'invalid status' => [['status' => 'Archived'], 'status'],
-            'missing max_rollover_credits when required' => [['apply_credit_rollover' => true, 'max_rollover_credits' => null], 'max_rollover_credits'],
-            'max_rollover_credits too low' => [['apply_credit_rollover' => true, 'max_rollover_credits' => 0], 'max_rollover_credits'],
+            'missing max_rollover_credits when required' => [
+                ['apply_credit_rollover' => true, 'max_rollover_credits' => null],
+                'max_rollover_credits'],
+            'max_rollover_credits too low' => [
+                ['apply_credit_rollover' => true, 'max_rollover_credits' => 0],
+                 'max_rollover_credits'],
             'invalid start_date format' => [['start_date' => '01-01-2024'], 'start_date'],
             'start_date in past' => [['start_date' => Carbon::yesterday()->format('Y-m-d')], 'start_date'],
-            'start_date after end date' => [['end_date' => now()->addDays(2)->format('Y-m-d'), 'start_date' => now()->addDays(3)->format('Y-m-d')], 'end_date'],
-            'end_date before start_date' => [['start_date' => now()->addDays(5)->format('Y-m-d'), 'end_date' => now()->addDays(2)->format('Y-m-d')], 'end_date'],
+            'start_date after end date' => [
+                ['end_date' => now()->addDays(2)->format('Y-m-d'),
+                 'start_date' => now()->addDays(3)->format('Y-m-d')], 'end_date'],
+            'end_date before start_date' => [
+                ['start_date' => now()->addDays(5)->format('Y-m-d'),
+                'end_date' => now()->addDays(2)->format('Y-m-d')], 'end_date'],
         ];
     }
 
-    public function test_index_displays_packages()
+    public function testIndexDisplaysPackage()
     {
         $packages = Package::factory()->count(3)->create();
 
@@ -44,7 +50,7 @@ class PackageTest extends TestCase
             return $viewPackages->count() === 3;
         });
     }
-    public function test_index_displays_no_packages()
+    public function testIndexDisplaysNoPackage()
     {
         $response = $this->get('/packages');
 
@@ -54,7 +60,7 @@ class PackageTest extends TestCase
             return $viewPackages->isEmpty();
         });
     }
-    public function test_get_single_package()
+    public function testGetSignlePackage()
     {
         $package = Package::factory()->create();
 
@@ -63,7 +69,7 @@ class PackageTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonFragment(['id' => $package->id, 'name' => $package->package_name]);
     }
-    public function test_store_package(): void
+    public function testStorePackage(): void
     {
         $packageData = Package::factory()->create()->toArray();
         $response = $this->postJson('/packages', $packageData);
@@ -75,7 +81,7 @@ class PackageTest extends TestCase
 
 
     #[\PHPUnit\Framework\Attributes\DataProvider('invalidPackageData')]
-    public function test_store_package_validation_errors(array $overrides, ?string $errorKey)
+    public function testStorePackageValidationErrors(array $overrides, ?string $errorKey)
     {
         $response = $this->postJson('packages', array_merge(Package::factory(1)->make()->toArray(), $overrides));
 
@@ -86,7 +92,7 @@ class PackageTest extends TestCase
         }
     }
 
-    public function test_update_valid_package()
+    public function testUpdateValidPackage()
     {
         $package = Package::factory()->create();
         $updateData = [
@@ -104,11 +110,14 @@ class PackageTest extends TestCase
 
 
     #[\PHPUnit\Framework\Attributes\DataProvider('invalidPackageData')]
-    public function test_update_package_validation_errors(array $overrides, ?string $errorKey)
+    public function testUpdatePackageValidationErrors(array $overrides, ?string $errorKey)
     {
         $package = Package::factory()->create();
 
-        $response = $this->putJson("packages/{$package->id}", array_merge(Package::factory(1)->make()->toArray(), $overrides));
+        $response = $this->putJson(
+            "packages/{$package->id}",
+            array_merge(Package::factory(1)->make()->toArray(), $overrides)
+        );
 
         $response->assertStatus(422);
 
@@ -117,7 +126,7 @@ class PackageTest extends TestCase
         }
     }
 
-    public function test_destroy_package_success()
+    public function testDestroyPackage()
     {
         $package = Package::factory()->create();
 
@@ -130,13 +139,13 @@ class PackageTest extends TestCase
         $response->assertStatus(302);
         $response->assertRedirect(route('packages.index'));
     }
-    public function test_update_package_not_found()
+    public function testUpdatePackageNotFound()
     {
         $response = $this->deleteJson('packages/999999'); // unlikely to exist
 
         $response->assertStatus(404);
     }
-    public function test_destroy_package_not_found()
+    public function testDestroyPackageNotFound()
     {
         $response = $this->deleteJson('/api/packages/999999'); // unlikely to exist
 

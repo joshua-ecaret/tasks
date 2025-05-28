@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Package::factory(5)->create();
-        Resident::factory(10)->create();
-
+        Resident::factory(5)->create();
     }
 }

@@ -3,10 +3,10 @@
 @section('content')
 
     <div class="container">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="card bg-layout">
+            <div class="card-header text-white bg-nav-dark d-flex justify-content-between align-items-center">
                 <span>Manage Residents</span>
-                <a href="{{ route('residents.create') }}" class="btn btn-primary btn-sm">
+                <a href="{{ route('residents.create') }}" class="btn bg-v-light btn-sm">
                     + Create Resident
                 </a>
             </div>

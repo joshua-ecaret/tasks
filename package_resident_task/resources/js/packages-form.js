@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const rolloverWrapper = document.getElementById("rolloverCreditsWrapper");
 
     if (checkbox && rolloverWrapper) {
-        function toggleRolloverInput() {
+        function toggleRolloverInput()
+        {
             if (checkbox.checked) {
                 rolloverWrapper.style.display = "block";
                 rolloverWrapper
@@ -23,8 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const form = document.getElementById("packageForm");
-    if(!form) return;
-    form.addEventListener("submit", async (e) => {
+    if (!form) {
+        return;
+    }
+    form.addEventListener("submit", async(e) => {
         console.log("Submit handler triggered");
         e.preventDefault();
 
@@ -35,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let method = "POST";
         let msg = "Package created successfully!";
         if (packageId) {
-            url = `/packages/${packageId}`;
+            url = ` / packages / ${packageId}`;
             method = "POST"; // Laravel expects POST with _method=PUT to spoof PUT
             formData.append("_method", "PUT");
             msg = "Package updated successfully!";
@@ -75,34 +78,35 @@ document.addEventListener("DOMContentLoaded", () => {
     const startDateInput = document.querySelector('input[name="start_date"]');
     const endDateInput = document.querySelector('input[name="end_date"]');
 
-    function updateEndDateMin() {
-        if (startDateInput.value) {
-            const startDate = new Date(startDateInput.value);
-            startDate.setDate(startDate.getDate() + 0);
-            const minDateStr = startDate.toISOString().split("T")[0];
-            endDateInput.min = minDateStr;
+function updateEndDateMin()
+{
+    if (startDateInput.value) {
+        const startDate = new Date(startDateInput.value);
+        startDate.setDate(startDate.getDate() + 0);
+        const minDateStr = startDate.toISOString().split("T")[0];
+        endDateInput.min = minDateStr;
 
-            if (endDateInput.value && endDateInput.value < minDateStr) {
-                endDateInput.value = "";
-            }
-        } else {
-            endDateInput.min = new Date().toISOString().split("T")[0];
+        if (endDateInput.value && endDateInput.value < minDateStr) {
+            endDateInput.value = "";
         }
+    } else {
+        endDateInput.min = new Date().toISOString().split("T")[0];
     }
+}
 
     startDateInput.addEventListener("change", updateEndDateMin);
 
     const todayStr = new Date().toISOString().split("T")[0];
-    if (!startDateInput.value) {
-        startDateInput.value = todayStr;
-    }
+if (!startDateInput.value) {
+    startDateInput.value = todayStr;
+}
 
     const creditsTimeUnitSelect = document.querySelector(
         'select[name="credits_time_unit"]'
     );
-    if (creditsTimeUnitSelect && !creditsTimeUnitSelect.value) {
-        creditsTimeUnitSelect.value = "Per Week";
-    }
+if (creditsTimeUnitSelect && !creditsTimeUnitSelect.value) {
+    creditsTimeUnitSelect.value = "Per Week";
+}
 
     updateEndDateMin();
 });

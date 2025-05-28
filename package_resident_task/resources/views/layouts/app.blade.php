@@ -14,28 +14,37 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+<style>
+  .bg-navbar {
+    background-color: #B8CFCE !important;
+  }
+  body{
+    background-color: #B8CFCE !important;
+  }
+  .bg-layout {
+    background-color: #5A827E !important;
+  }
+  .bg-nav-dark{
+    background-color: #37635e !important;
+  }
+  .bg-v-light{
+    background-color: #84AE92 !important;
+  }
+</style>
 </head>
-<body>
+
+<body class="bg-navbarl">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-layout shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-
-                    </ul>
-                </div>
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4 w-100 bg-navbar">
             <div class="container mb-3">
                 <x-back-button />
             </div>

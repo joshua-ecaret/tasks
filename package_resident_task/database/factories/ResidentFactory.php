@@ -18,11 +18,13 @@ class ResidentFactory extends Factory
     public function definition(): array
     {
         return [
-            'resident_name' => $this->faker->name(),
+            'resident_name' => $this->faker->firstName(),
             'email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
             'package_id' => Package::inRandomOrder()->value('id') ?? Package::factory(),
             'status' => $this->faker->randomElement(['Active', 'Inactive']),
+            'gender' => $this->faker->randomElement(['Male', 'Female']),
+            'is_citizen' => $this->faker->boolean(80),
         ];
     }
 }

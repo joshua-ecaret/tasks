@@ -5,8 +5,8 @@ namespace App\Http\Requests\Package;
 use App\Rules\CreditRollover;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-
 use Illuminate\Contracts\Validation\Validator;
+
 class UpdatePackageRequest extends FormRequest
 {
     public function authorize(): bool
@@ -15,10 +15,10 @@ class UpdatePackageRequest extends FormRequest
     }
 
 
-     protected function prepareForValidation()
+    protected function prepareForValidation()
     {
         $this->merge([
-            'apply_credit_rollover' => $this->boolean('apply_credit_rollover'),
+           'apply_credit_rollover' => $this->boolean('apply_credit_rollover'),
         ]);
         if (!$this->boolean('apply_credit_rollover')) {
             $this->merge(['max_rollover_credits' => null]);
@@ -71,17 +71,16 @@ class UpdatePackageRequest extends FormRequest
             if ($start && $end) {
                 if (strtotime($start) > strtotime($end)) {
                     if ($startInput && !$endInput) {
-                        $validator->errors()->add('start_date', 'Start date must be before or equal to the current end date.');
+                        $validator->errors()
+                        ->add('start_date', 'Start date must be before or equal to the current end date.');
                     } elseif (!$startInput && $endInput) {
-                        $validator->errors()->add('end_date', 'End date must be after or equal to the current start date.');
+                        $validator->errors()
+                        ->add('end_date', 'End date must be after or equal to the current start date.');
                     } else {
                         $validator->errors()->add('start_date', 'Start date must be before or equal to end date.');
                     }
                 }
             }
-
-
-
         });
     }
 
@@ -102,9 +101,11 @@ class UpdatePackageRequest extends FormRequest
             'status.in' => 'Status must be Active, Inactive, or Draft.',
             'apply_credit_rollover.required' => 'Please specify if credit rollover is applied.',
             'apply_credit_rollover.boolean' => 'Rollover field must be true or false.',
-            'max_rollover_credits.integer' => 'Max rollover credits must be a number.',
+            'max_rollover_credits.integer' =>
+            'Max rollover credits must be a number.',
             'max_rollover_credits.min' => 'Max rollover credits must be at least 1.',
-            'max_rollover_credits.required_unless' => 'You cannot update maximum rollover credits unless credit rollover is enabled ',
+            'max_rollover_credits.required_unless' =>
+             'You cannot update maximum rollover credits unless credit rollover is enabled ',
         ];
     }
 

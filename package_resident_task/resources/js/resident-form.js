@@ -1,10 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("residentForm");
-    if (!form) return;
+    if (!form) {
+        return;
+    }
 
     const residentId = form.getAttribute("data-resident-id");
 
-    form.addEventListener("submit", async (e) => {
+    form.addEventListener("submit", async(e) => {
         e.preventDefault();
 
         const formData = new FormData(form);
@@ -13,14 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
         let msg = "Resident created successfully!";
 
         if (residentId) {
-            url = `/residents/${residentId}`;
+            url = ` / residents / ${residentId}`;
             method = "POST";
             formData.append("_method", "PUT");
             msg = "Resident updated successfully!";
         }
 
         try {
-
             const response = await fetch(url, {
                 method: method,
                 headers: {
