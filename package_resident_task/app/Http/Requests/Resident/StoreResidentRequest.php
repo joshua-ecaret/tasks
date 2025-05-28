@@ -14,6 +14,13 @@ class StoreResidentRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation(): void
+    {
+         $this->merge([
+            'is_citizen' => $this->boolean('is_citizen'),
+         ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,7 +33,9 @@ class StoreResidentRequest extends FormRequest
             'email'         => ['required', 'email', 'max:255', 'unique:residents,email'],
             'phone'         => ['nullable', 'string', 'max:20'],
             'package_id'    => ['required', 'exists:packages,id'],
-
+            'status'        => ['nullable', 'string', 'in:Active,Inactive'],
+            'gender' => ['required', 'string', 'in:Male,Female'],
+            'is_citizen' => ['required', 'boolean'],
         ];
     }
 
@@ -47,5 +56,4 @@ class StoreResidentRequest extends FormRequest
             'package_id.exists'      => 'The selected package is invalid.',
         ];
     }
-
 }

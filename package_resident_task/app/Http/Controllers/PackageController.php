@@ -61,7 +61,6 @@ class PackageController extends Controller
     public function update(UpdatePackageRequest $request, string $id)
     {
 
-        dd($request->all());
         $package = Package::findOrFail($id);
         $package->update($request->validated());
         return response()->json([
@@ -78,8 +77,5 @@ class PackageController extends Controller
         $package = Package::findOrFail($id);
         $package->delete();
         return redirect()->route('packages.index')->with('success', 'Deleted successfully');
-
-        
-
     }
 }

@@ -11,4 +11,7 @@ Route::get('/', function () {
 });
 
 
-Route::patch('/residents/{resident}/toggle-status', [ResidentController::class, 'toggleStatus'])->name('residents.toggleStatus');
+Route::patch(
+    '/residents/{resident}/toggle-status',
+    [ResidentController::class, 'toggleStatus']
+) ->name('residents.toggleStatus');

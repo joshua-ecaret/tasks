@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Resources\Package; // Corrected namespace as per the error message
+namespace App\Http\Resources\Package;
+
+// Corrected namespace as per the error message
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

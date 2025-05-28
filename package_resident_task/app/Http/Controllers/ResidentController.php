@@ -8,6 +8,7 @@ use App\Http\Requests\Resident\UpdateResidentRequest;
 use App\Models\Package;
 use App\Models\Resident;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class ResidentController extends Controller
 {
@@ -59,11 +60,11 @@ class ResidentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateResidentRequest $request, string $id)
     {
 
         $resident = Resident::findOrFail($id);
-        $resident->update($request->all());
+        $resident->update($request->validated());
         return response()->json([
             'message' => 'Resident updated successfully',
             'resident' => $resident

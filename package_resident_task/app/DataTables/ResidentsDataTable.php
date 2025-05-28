@@ -37,6 +37,7 @@ class ResidentsDataTable extends DataTable
      */
     public function query(Resident $model): QueryBuilder
     {
+        // @phpstan-ignore larastan.relationExistence
         return $model->newQuery()->with('package');
     }
 
