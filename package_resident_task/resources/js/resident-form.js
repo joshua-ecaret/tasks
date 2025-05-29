@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let msg = "Resident created successfully!";
 
         if (residentId) {
-            url = ` / residents / ${residentId}`;
+            url = `/residents/${residentId}`;
             method = "POST";
             formData.append("_method", "PUT");
             msg = "Resident updated successfully!";
@@ -36,19 +36,36 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await response.json();
 
 
-            console.log("Response data:", data);
             if (response.ok) {
-                alert(msg);
-                form.reset();
-                window.location.href = "/residents";
+               Swal.fire({
+                    title: "Success",
+                    text: msg,
+                    icon: "success",
+                    confirmButtonText: "OK",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.reset();
+                        window.location.href = "/residents";
+                    }
+                });
             } else {
                 console.error("Validation errors:", data.errors);
                 const messages = Object.values(data.errors).flat().join("\n");
-                alert("Failed to save resident:\n" + messages);
+                 Swal.fire({
+                    title: "Failed to create resident",
+                    text: messages,
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
             }
         } catch (error) {
             console.error("Error submitting form:", error);
-            alert("Something went wrong. Please try again.");
+   Swal.fire({
+       title: "Unexpected Error",
+       text: "Something went wrong. Please try again.",
+       icon: "error",
+       confirmButtonText: "OK",
+   });
         }
     });
 });
