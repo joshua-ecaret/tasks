@@ -19,11 +19,10 @@
     </a>
 
     {{-- Delete Button --}}
-    <form action="{{ route('residents.destroy', $id) }}" method="POST"
-        onsubmit="return confirm('Are you sure you want to delete this resident?')">
+    <form action="{{ route('residents.destroy', $id) }}" method="POST" style="display:inline;">
         @csrf
         @method('DELETE')
-        <button type="submit" class="btn  btn-sm" title="Delete Resident">
+        <button type="button" class="btn btn-sm btn-delete" title="Delete Resident">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="red" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round" class="me-1" viewBox="0 0 24 24">
                 <polyline points="3 6 5 6 21 6" />
@@ -35,27 +34,15 @@
         </button>
     </form>
 
+    <form action="{{ route('residents.toggleStatus', $id) }}" method="POST" class="status-toggle-form"
+        style="display: inline-block;" title="Toggle Status">
+        @csrf
+        @method('PATCH')
 
-    {{-- Toggle Status Button --}}
-
-<form action="{{ route('residents.toggleStatus', $id) }}" method="POST" 
-      onsubmit="return confirm('Are you sure you want to toggle this resident\'s status?')"
-      style="display: inline-block;"
-      title="Toggle Status"
->
-    @csrf
-    @method('PATCH')
-
-    <div class="form-check form-switch">
-        <input 
-            class="form-check-input" 
-            type="checkbox" 
-            id="toggleStatusSwitch{{ $id }}" 
-            name="status_toggle"
-            onchange="this.form.submit()"
-            {{ $status === 'Active' ? 'checked' : '' }}
-        >
-    </div>
-</form>
+        <div class="form-check form-switch">
+            <input class="form-check-input status-toggle-checkbox" type="checkbox" id="toggleStatusSwitch{{ $id }}"
+                name="status_toggle" {{ $status === 'Active' ? 'checked' : '' }}>
+        </div>
+    </form>
 
 </div>

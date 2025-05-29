@@ -14,6 +14,7 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
   .bg-navbar {
     background-color: #B8CFCE !important;
@@ -52,5 +53,6 @@
         </main>
     </div>
     @stack('scripts')
+
 </body>
 </html>

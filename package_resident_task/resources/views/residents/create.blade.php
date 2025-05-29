@@ -9,5 +9,5 @@
 @endsection
 
 @push('scripts')
-    @vite('resources/js/resident-form.js')
+    {{-- @vite('resources/js/resident-form.js') --}}
 @endpush

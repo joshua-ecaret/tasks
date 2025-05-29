@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     const checkbox = document.getElementById("apply_credit_rollover");
     const rolloverWrapper = document.getElementById("rolloverCreditsWrapper");
 
@@ -28,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
     form.addEventListener("submit", async(e) => {
-        console.log("Submit handler triggered");
         e.preventDefault();
 
         const formData = new FormData(form);
@@ -38,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let method = "POST";
         let msg = "Package created successfully!";
         if (packageId) {
-            url = ` / packages / ${packageId}`;
+            url = `/packages/${packageId}`;
             method = "POST"; // Laravel expects POST with _method=PUT to spoof PUT
             formData.append("_method", "PUT");
             msg = "Package updated successfully!";
@@ -58,20 +56,38 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await response.json();
 
             if (response.ok) {
-                alert(msg);
-                form.reset();
-                window.location.href = "/packages";
+                Swal.fire({
+                    title: "Success",
+                    text: msg,
+                    icon: "success",
+                    confirmButtonText: "OK",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.reset();
+                        window.location.href = "/packages";
+                    }
+                });
             } else {
                 console.error("Validation errors:", data.errors);
 
-                // Flatten errors array
                 const messages = Object.values(data.errors).flat().join("\n");
 
-                alert("Failed to create package:\n" + messages);
+                Swal.fire({
+                    title: "Failed to create package",
+                    text: messages,
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
             }
         } catch (error) {
             console.error("Error submitting form:", error);
-            alert("Something went wrong. Please try again.");
+
+            Swal.fire({
+                title: "Unexpected Error",
+                text: "Something went wrong. Please try again.",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
         }
     });
 
@@ -109,4 +125,25 @@ if (creditsTimeUnitSelect && !creditsTimeUnitSelect.value) {
 }
 
     updateEndDateMin();
+
+     document.querySelectorAll('.btn-delete').forEach(button => {
+            button.addEventListener('click', function () {
+                const form = this.closest('form');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This action cannot be undone.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
 });
