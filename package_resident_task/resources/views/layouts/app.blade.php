@@ -60,6 +60,7 @@
                     <!-- Left Side -->
                     <ul class="navbar-nav me-auto"></ul>
 
+                    <x-language-switch/>
                     <!-- Right Side -->
                     <ul class="navbar-nav ms-auto">
                         @guest
