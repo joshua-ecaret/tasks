@@ -19,3 +19,18 @@ Route::patch(
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware('auth')->group(function () {
+    Route::post('/notifications/mark-as-read', function () {
+        auth()->user()->unreadNotifications->markAsRead();
+        return response()->json(['status' => 'success']);
+    })->name('notifications.markAsRead');
+
+    Route::delete('/notifications/clear-all', function () {
+        auth()->user()->notifications()->delete();
+        return response()->json(['status' => 'cleared']);
+    })->name('notifications.clearAll');
+});
+
+Route::middleware('auth')->get('/notifications/unread', function() {
+    return auth()->user()->unreadNotifications()->latest()->get();
+});
