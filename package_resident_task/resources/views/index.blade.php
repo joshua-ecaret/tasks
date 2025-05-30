@@ -7,20 +7,20 @@
     <div class="row g-4">
         <!-- Residents Card -->
         <div class="col-md-6">
-            <div class="card bg-layout text-white h-100 shadow-lg border-0 transition" style="cursor: pointer;" onclick="window.location.href='{{ route('residents.index') }}'">
+            <div class="card bg-layout  h-100 shadow-lg border-0 transition" style="cursor: pointer;" onclick="window.location.href='{{ route('residents.index') }}'">
                 <div class="card-body d-flex flex-column justify-content-center text-center">
                     <h5 class="card-title mb-3">Residents</h5>
-                    <p class="card-text text-white">Manage all residents in the system.</p>
+                    <p class="card-text ">Manage all residents in the system.</p>
                 </div>
             </div>
         </div>
 
         <!-- Packages Card -->
         <div class="col-md-6">
-            <div class="card bg-layout text-white h-100 shadow-lg border-0 transition" style="cursor: pointer;" onclick="window.location.href='{{ route('packages.index') }}'">
+            <div class="card bg-layout h-100 shadow-lg border-0 transition" style="cursor: pointer;" onclick="window.location.href='{{ route('packages.index') }}'">
                 <div class="card-body d-flex flex-column justify-content-center text-center">
                     <h5 class="card-title mb-3">Packages</h5>
-                    <p class="card-text text-white">View and edit all available packages.</p>
+                    <p class="card-text ">View and edit all available packages.</p>
                 </div>
             </div>
         </div>
