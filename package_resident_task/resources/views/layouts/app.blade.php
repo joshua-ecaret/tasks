@@ -12,36 +12,82 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<style>
-  .bg-navbar {
-    background-color: #B8CFCE !important;
-  }
-  body{
-    background-color: #B8CFCE !important;
-  }
-  .bg-layout {
-    background-color: #5A827E !important;
-  }
-  .bg-nav-dark{
-    background-color: #37635e !important;
-  }
-  .bg-v-light{
-    background-color: #84AE92 !important;
-  }
-</style>
-</head>
 
-<body class="bg-navbarl">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Vite Assets -->
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <style>
+        .bg-navbar {
+            background-color: #B8CFCE !important;
+        }
+        body {
+            background-color: #B8CFCE !important;
+        }
+        .bg-layout {
+            background-color: #5A827E !important;
+        }
+        .bg-nav-dark {
+            background-color: #37635e !important;
+        }
+        .bg-v-light {
+            background-color: #84AE92 !important;
+        }
+    </style>
+</head>
+<body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-layout shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left Side -->
+                    <ul class="navbar-nav me-auto"></ul>
+
+                    <!-- Right Side -->
+                    <ul class="navbar-nav ms-auto">
+                        @guest
+                            @if (Route::has('login'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                </li>
+                            @endif
+
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+                        @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                          class="d-none">@csrf</form>
+                                </div>
+                            </li>
+                        @endguest
+                    </ul>
+                </div>
             </div>
         </nav>
 
@@ -52,7 +98,7 @@
             @yield('content')
         </main>
     </div>
-    @stack('scripts')
 
+    @stack('scripts')
 </body>
 </html>

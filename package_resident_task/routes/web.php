@@ -15,3 +15,7 @@ Route::patch(
     '/residents/{resident}/toggle-status',
     [ResidentController::class, 'toggleStatus']
 ) ->name('residents.toggleStatus');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
