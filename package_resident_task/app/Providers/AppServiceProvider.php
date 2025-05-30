@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Package;
+use App\Models\Resident;
+use App\Observers\NotifyOnUpdateObserver;
+use App\Observers\PackageObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Package::observe(NotifyOnUpdateObserver::class);
+        Resident::observe(NotifyOnUpdateObserver::class);
     }
 }

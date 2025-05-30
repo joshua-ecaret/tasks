@@ -6,6 +6,7 @@ use App\DataTables\PackagesDataTable;
 use App\Http\Requests\Package\StorePackageRequest;
 use App\Http\Requests\Package\UpdatePackageRequest;
 use App\Models\Package;
+use App\Notifications\PackageChangedNotification;
 use Illuminate\Http\Request;
 
 class PackageController extends Controller

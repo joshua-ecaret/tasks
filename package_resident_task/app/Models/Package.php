@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class Package extends Model
 {
     /** @use HasFactory<\Database\Factories\PackageFactory> */
     use HasFactory;
     use SoftDeletes;
+    use Notifiable;
 
     protected $fillable = [
         'package_name',

@@ -8,6 +8,7 @@
                 <a href="{{ route('packages.create') }}" class="btn btn-primary btn-sm">
                     + Create Package
                 </a>
+            
             </div>
             <div class="card-body">
                 {{ $dataTable->table() }}
