@@ -6,6 +6,7 @@ use App\Models\Package;
 use App\Models\Resident;
 use App\Observers\NotifyOnUpdateObserver;
 use App\Observers\PackageObserver;
+use App\Observers\ResidentObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,5 +26,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Package::observe(NotifyOnUpdateObserver::class);
         Resident::observe(NotifyOnUpdateObserver::class);
+        Resident::observe(ResidentObserver::class);
     }
 }

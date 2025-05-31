@@ -4,7 +4,7 @@
 @section('header', content: 'Create')
 
 @section('content')
-<x-resident-form :resident="null" :valid-packages="$packages" />
+<x-resident-form :resident="null" :packages="$packages" />
 
 @endsection
 

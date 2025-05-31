@@ -4,7 +4,7 @@
 @section('header', 'Edit')
 
 @section('content')
-<x-resident-form :resident="$resident" />
+<x-resident-form :resident="$resident" :packages="$packages" />
 
 @endsection
 

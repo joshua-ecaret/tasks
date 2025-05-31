@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\DataTables\PackagesDataTable;
 use App\Http\Requests\Package\StorePackageRequest;
 use App\Http\Requests\Package\UpdatePackageRequest;
+use App\Mail\PackageMail;
 use App\Models\Package;
 use App\Notifications\PackageChangedNotification;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class PackageController extends Controller
 {
@@ -78,5 +81,25 @@ class PackageController extends Controller
         $package = Package::findOrFail($id);
         $package->delete();
         return redirect()->route('packages.index')->with('success', 'Deleted successfully');
+    }
+
+    public static function sendEmail(array $residentData,string $action){
+        try{
+            $toEmailAddress = "ceyic98092@claspira.com";
+            if (empty($residentData['package_name'])) {
+                return; // No package, do nothing
+            }
+            $msg = "Resident {$residentData['resident_name']} has been {$action}d. Package Name: {$residentData['package_name']}.
+            
+            Package Status: {$residentData['status']}.
+            Package Start Date  : {$residentData['start_date']}.
+            Package End Date  : {$residentData['end_date']}.
+            ";
+            Mail::to($toEmailAddress)->send(new PackageMail($msg));
+            
+        }catch(Exception $e){
+
+            \Log::error('Unable to send message'. $e->getMessage());
+        }
     }
 }

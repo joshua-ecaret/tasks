@@ -1,7 +1,7 @@
-@props(['resident', 'validPackages'])
+@props(['resident', 'packages'])
 
 @php
-$validPackages = $validPackages ?? \App\Models\Package::all()->pluck('package_name', 'id')->toArray();
+// $validPackages = $validPackages ?? \App\Models\Package::all()->pluck('package_name', 'id')->toArray();
 $oldGender = old('gender', $resident->gender ?? '');
 $isCitizen = old('is_citizen', $resident->is_citizen ?? false);
 @endphp
@@ -14,7 +14,7 @@ $isCitizen = old('is_citizen', $resident->is_citizen ?? false);
 
     <x-input-floating type="text" name="phone" label="Phone (optional)" :value="old('phone', $resident->phone ?? '')" />
 
-    <x-input-select name="package_id" label="Package" :options="$validPackages" :selected="old('package_id', $resident->package_id ?? '')" required />
+    <x-input-select name="package_id" label="Package" :options="$packages" :selected="old('package_id', $resident->package_id ?? '')" required />
     <div class="d-flex gap-3 mb-3">
         <x-input-radio name="gender" label="Male" value="Male" :checked="$oldGender === 'Male'" />
         <x-input-radio name="gender" label="Female" value="Female" :checked="$oldGender === 'Female'" />

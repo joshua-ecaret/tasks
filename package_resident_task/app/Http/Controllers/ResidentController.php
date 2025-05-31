@@ -54,7 +54,13 @@ class ResidentController extends Controller
      */
     public function edit(Resident $resident)
     {
-        return view('residents.edit', compact('resident'));    //
+        $packages = Package::active()->pluck('package_name', 'id');
+
+        // Ensure resident's current package (even if inactive) is included
+        if ($resident->package && !$packages->has($resident->package_id)) {
+            $packages->put($resident->package_id, $resident->package->package_name);
+        }
+        return view('residents.edit', compact('resident','packages'));    //
     }
 
     /**

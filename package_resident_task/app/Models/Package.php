@@ -41,10 +41,10 @@ class Package extends Model
     public function isActive(): bool
     {
         if ($this->status === 'Active') {
-            // if ($this->start_date && $this->end_date) {
-            //     $currentDate = now();
-            //     return $currentDate->between($this->start_date, $this->end_date);
-            // }
+            if ($this->start_date && $this->end_date) {
+                $currentDate = now();
+                return $currentDate->between($this->start_date, $this->end_date);
+            }
             return true;
         }
         return false;

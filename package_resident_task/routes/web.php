@@ -52,3 +52,5 @@ Route::post(
         return redirect()->back();
     }
 )->name('locale.change');
+
+Route::get('send-email',[PackageController::class,'sendEmail']);
